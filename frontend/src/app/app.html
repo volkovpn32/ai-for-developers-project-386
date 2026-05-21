@@ -1,0 +1,13 @@
+<header class="header">
+  <nav class="nav">
+    <a routerLink="/" class="logo">{{ title }}</a>
+    <div class="nav-links">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Главная</a>
+      <a routerLink="/admin" routerLinkActive="active">Админ-панель</a>
+    </div>
+  </nav>
+</header>
+
+<main class="main">
+  <router-outlet />
+</main>

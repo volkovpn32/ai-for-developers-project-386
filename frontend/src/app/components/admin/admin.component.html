@@ -1,0 +1,116 @@
+<div class="page-header">
+  <h1 class="page-title">Админ-панель</h1>
+  <p class="page-subtitle">Управление типами событий и просмотр бронирований</p>
+</div>
+
+<div class="tabs">
+  <button
+    class="tab-btn"
+    [class.active]="activeTab === 'events'"
+    (click)="activeTab = 'events'"
+  >
+    Типы событий
+  </button>
+  <button
+    class="tab-btn"
+    [class.active]="activeTab === 'bookings'"
+    (click)="activeTab = 'bookings'"
+  >
+    Бронирования
+  </button>
+</div>
+
+<div *ngIf="error" class="error-banner">{{ error }}</div>
+<div *ngIf="loading && !eventTypes.length && !bookings.length" class="loading-state">
+  <div class="spinner"></div>
+  <span>Загрузка...</span>
+</div>
+
+<!-- Event Types Tab -->
+<div *ngIf="activeTab === 'events'" class="tab-content">
+  <div class="form-card">
+    <h3 class="form-title">{{ editingEventType ? 'Редактировать тип события' : 'Добавить тип события' }}</h3>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Название</label>
+        <input type="text" [(ngModel)]="formTitle" placeholder="Например, Встреча 1-на-1" />
+      </div>
+      <div class="form-group">
+        <label>Описание</label>
+        <input type="text" [(ngModel)]="formDescription" placeholder="Краткое описание" />
+      </div>
+      <div class="form-group narrow">
+        <label>Длительность (мин)</label>
+        <input type="number" [(ngModel)]="formDuration" placeholder="30" />
+      </div>
+      <div class="form-actions">
+        <button class="btn primary" (click)="submitForm()" [disabled]="loading || !formTitle || !formDescription || !formDuration">
+          {{ editingEventType ? 'Сохранить' : 'Добавить' }}
+        </button>
+        <button *ngIf="editingEventType" class="btn secondary" (click)="resetForm()">Отмена</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-card" *ngIf="eventTypes.length > 0">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Название</th>
+          <th>Описание</th>
+          <th class="narrow">Длительность</th>
+          <th class="actions">Действия</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let et of eventTypes">
+          <td class="strong">{{ et.title }}</td>
+          <td>{{ et.description }}</td>
+          <td class="narrow">{{ et.duration }} мин</td>
+          <td class="actions">
+            <button class="icon-btn" (click)="editEventType(et)" title="Редактировать">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M11.5 2.5l2 2M3 13l8-8 2 2-8 8H3v-2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="icon-btn danger" (click)="deleteEventType(et.id)" title="Удалить">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 4h10M6 4V2.5a1 1 0 011-1h2a1 1 0 011 1V4m-7 0v8.5a1.5 1.5 0 001.5 1.5h5a1.5 1.5 0 001.5-1.5V4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="!eventTypes.length && !loading" class="empty-state">
+    <p>Нет типов событий. Добавьте первый выше.</p>
+  </div>
+</div>
+
+<!-- Bookings Tab -->
+<div *ngIf="activeTab === 'bookings'" class="tab-content">
+  <div class="table-card" *ngIf="bookings.length > 0">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Гость</th>
+          <th>Email</th>
+          <th>Тип события</th>
+          <th>Начало</th>
+          <th>Конец</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let b of bookings">
+          <td class="strong">{{ b.guestName }}</td>
+          <td>{{ b.guestEmail }}</td>
+          <td><span class="badge">{{ b.eventTypeId }}</span></td>
+          <td>{{ formatDateTime(b.startTime) }}</td>
+          <td>{{ formatDateTime(b.endTime) }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="!bookings.length && !loading" class="empty-state">
+    <p>Нет бронирований.</p>
+  </div>
+</div>

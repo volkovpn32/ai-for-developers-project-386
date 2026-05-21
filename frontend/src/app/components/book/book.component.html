@@ -1,0 +1,126 @@
+<div class="book-layout" *ngIf="eventType">
+  <!-- Left Sidebar -->
+  <aside class="book-sidebar">
+    <div class="sidebar-content">
+      <a routerLink="/" class="back-link">← Все типы событий</a>
+
+      <div class="event-info">
+        <div class="avatar">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <circle cx="20" cy="20" r="20" fill="#111827"/>
+            <text x="20" y="25" text-anchor="middle" fill="white" font-size="16" font-weight="600">C</text>
+          </svg>
+        </div>
+        <h1 class="event-title">{{ eventType.title }}</h1>
+        <p class="event-description">{{ eventType.description }}</p>
+        <div class="event-meta">
+          <span class="meta-item">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3.5a4.5 4.5 0 100 9 4.5 4.5 0 000-9z" stroke="#6b7280" stroke-width="1.5"/><path d="M8 6v2.5l1.5 1" stroke="#6b7280" stroke-width="1.5" stroke-linecap="round"/></svg>
+            {{ eventType.duration }} мин
+          </span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Right Content -->
+  <div class="book-main">
+    <div class="step" *ngIf="!selectedSlot">
+      <h2 class="step-title">Выберите дату и время</h2>
+
+      <div class="calendar-wrap">
+        <mat-form-field appearance="outline" class="date-field">
+          <mat-label>Дата</mat-label>
+          <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" (dateChange)="loadSlots()">
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div *ngIf="loading && !slots.length" class="loading-state">
+        <div class="spinner"></div>
+        <span>Загрузка доступного времени...</span>
+      </div>
+
+      <div *ngIf="slots.length > 0" class="slots-section">
+        <h3 class="slots-heading">Доступные слоты</h3>
+        <div class="slots-grid">
+          <button
+            *ngFor="let slot of slots"
+            class="slot-btn"
+            [class.selected]="selectedSlot === slot"
+            (click)="selectSlot(slot)"
+          >
+            {{ formatTime(slot.startTime) }}
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="!loading && slots.length === 0 && selectedDate" class="empty-state">
+        <p>На выбранную дату нет доступных слотов.</p>
+        <p class="empty-hint">Попробуйте выбрать другую дату.</p>
+      </div>
+    </div>
+
+    <!-- Booking Form (after slot selection) -->
+    <div class="step" *ngIf="selectedSlot">
+      <h2 class="step-title">Заполните данные</h2>
+
+      <div class="selected-summary">
+        <div class="summary-row">
+          <span class="summary-label">Выбрано:</span>
+          <span class="summary-value">{{ formatTime(selectedSlot.startTime) }} — {{ formatTime(selectedSlot.endTime) }}</span>
+        </div>
+        <button class="change-btn" (click)="selectedSlot = null; successMessage = null;">Изменить</button>
+      </div>
+
+      <form class="booking-form" (submit)="$event.preventDefault(); submitBooking();" *ngIf="!successMessage">
+        <div class="form-group">
+          <label for="guestName">Ваше имя</label>
+          <input
+            id="guestName"
+            type="text"
+            [(ngModel)]="guestName"
+            name="guestName"
+            placeholder="Иван Иванов"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="guestEmail">Email</label>
+          <input
+            id="guestEmail"
+            type="email"
+            [(ngModel)]="guestEmail"
+            name="guestEmail"
+            placeholder="ivan@example.com"
+            required
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="submit-btn"
+          [disabled]="loading || !guestName || !guestEmail"
+        >
+          {{ loading ? 'Создание...' : 'Подтвердить бронирование' }}
+        </button>
+      </form>
+
+      <div *ngIf="successMessage" class="success-state">
+        <div class="success-icon">✓</div>
+        <h3>{{ successMessage }}</h3>
+        <p>Ваше бронирование подтверждено.</p>
+        <a routerLink="/" class="home-link">← На главную</a>
+      </div>
+    </div>
+
+    <div *ngIf="error" class="error-banner">{{ error }}</div>
+  </div>
+</div>
+
+<div class="error-page" *ngIf="error && !eventType">
+  <p>{{ error }}</p>
+  <a routerLink="/" class="home-link">← На главную</a>
+</div>

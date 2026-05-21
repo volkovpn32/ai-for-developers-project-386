@@ -1,0 +1,24 @@
+<div class="page-header">
+  <h1 class="page-title">Типы событий</h1>
+  <p class="page-subtitle">Выберите тип встречи и забронируйте удобное время</p>
+</div>
+
+<div *ngIf="loading" class="loading-state">
+  <div class="spinner"></div>
+  <span>Загрузка...</span>
+</div>
+
+<div *ngIf="error" class="error-state">{{ error }}</div>
+
+<div class="event-types-grid" *ngIf="!loading && !error">
+  <a class="event-card" [routerLink]="['/book', et.id]" *ngFor="let et of eventTypes">
+    <div class="card-content">
+      <h3 class="card-title">{{ et.title }}</h3>
+      <p class="card-description">{{ et.description }}</p>
+      <div class="card-meta">
+        <span class="duration-badge">{{ et.duration }} мин</span>
+      </div>
+    </div>
+    <div class="card-arrow">→</div>
+  </a>
+</div>
