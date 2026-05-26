@@ -1,3 +1,51 @@
-node_modules/
+# Gradle
+backend/.gradle/
+backend/build/
+
+# TypeSpec
 tsp-output/
+
+# Node / npm
+node_modules/
+frontend/npm-debug.log
+frontend/yarn-error.log
+
+# Angular build output
+frontend/dist/
+frontend/tmp/
+frontend/out-tsc/
+frontend/bazel-out/
+
+# Angular cache & misc
+frontend/.angular/
+frontend/.sass-cache/
+frontend/connect.lock
+frontend/coverage/
+frontend/libpeerconnection.log
+frontend/testem.log
+frontend/typings/
+frontend/__screenshots__/
+
+# Angular .history
+frontend/.history/
+
+# IDE
 .idea/
+frontend/.project
+frontend/.classpath
+frontend/.c9/
+frontend/*.launch
+frontend/.settings/
+frontend/*.sublime-workspace
+
+# VS Code (except tracked configs)
+frontend/.vscode/*
+!frontend/.vscode/settings.json
+!frontend/.vscode/tasks.json
+!frontend/.vscode/launch.json
+!frontend/.vscode/extensions.json
+!frontend/.vscode/mcp.json
+
+# System
+.DS_Store
+Thumbs.db
