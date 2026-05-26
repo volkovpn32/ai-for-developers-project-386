@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -32,7 +32,8 @@ export class AdminComponent implements OnInit {
 
   constructor(
     private eventTypeService: EventTypeService,
-    private bookingService: BookingService
+    private bookingService: BookingService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   async ngOnInit() {
@@ -51,6 +52,7 @@ export class AdminComponent implements OnInit {
       this.error = 'Ошибка загрузки данных';
     } finally {
       this.loading = false;
+      this.cdr.detectChanges();
     }
   }
 
@@ -90,6 +92,7 @@ export class AdminComponent implements OnInit {
       this.error = 'Ошибка сохранения';
     } finally {
       this.loading = false;
+      this.cdr.detectChanges();
     }
   }
 
@@ -121,6 +124,7 @@ export class AdminComponent implements OnInit {
       this.error = 'Ошибка удаления';
     } finally {
       this.loading = false;
+      this.cdr.detectChanges();
     }
   }
 

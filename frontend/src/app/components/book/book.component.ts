@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -48,7 +48,8 @@ export class BookComponent implements OnInit {
     private router: Router,
     private eventTypeService: EventTypeService,
     private slotService: SlotService,
-    private bookingService: BookingService
+    private bookingService: BookingService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   async ngOnInit() {
@@ -66,6 +67,8 @@ export class BookComponent implements OnInit {
       }
     } catch (err: any) {
       this.error = 'Ошибка загрузки типа события';
+    } finally {
+      this.cdr.detectChanges();
     }
   }
 
@@ -90,6 +93,7 @@ export class BookComponent implements OnInit {
       this.error = 'Ошибка загрузки слотов';
     } finally {
       this.loading = false;
+      this.cdr.detectChanges();
     }
   }
 
@@ -122,6 +126,7 @@ export class BookComponent implements OnInit {
       this.error = 'Ошибка создания бронирования';
     } finally {
       this.loading = false;
+      this.cdr.detectChanges();
     }
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { EventTypeService } from '../../services/event-type.service';
@@ -16,7 +16,10 @@ export class HomeComponent implements OnInit {
   loading = true;
   error: string | null = null;
 
-  constructor(private eventTypeService: EventTypeService) {}
+  constructor(
+    private eventTypeService: EventTypeService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   async ngOnInit() {
     try {
@@ -25,6 +28,7 @@ export class HomeComponent implements OnInit {
       this.error = 'Не удалось загрузить типы событий.';
     } finally {
       this.loading = false;
+      this.cdr.detectChanges();
     }
   }
 }

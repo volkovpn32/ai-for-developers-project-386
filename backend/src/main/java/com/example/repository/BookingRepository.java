@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class BookingRepository {
@@ -19,14 +18,6 @@ public class BookingRepository {
         return Uni.createFrom().item(() -> new ArrayList<>(store.values()));
     }
 
-    public Uni<List<Booking>> findByEventTypeId(String eventTypeId) {
-        return Uni.createFrom().item(() ->
-            store.values().stream()
-                .filter(b -> b.eventTypeId.equals(eventTypeId))
-                .collect(Collectors.toList())
-        );
-    }
-
     public Uni<Booking> save(Booking booking) {
         return Uni.createFrom().item(() -> {
             store.put(booking.id, booking);
@@ -34,10 +25,9 @@ public class BookingRepository {
         });
     }
 
-    public Uni<Boolean> existsConflict(String eventTypeId, LocalDateTime startTime, LocalDateTime endTime) {
+    public Uni<Boolean> existsConflict(LocalDateTime startTime, LocalDateTime endTime) {
         return Uni.createFrom().item(() ->
             store.values().stream()
-                .filter(b -> b.eventTypeId.equals(eventTypeId))
                 .anyMatch(b -> startTime.isBefore(b.endTime) && endTime.isAfter(b.startTime))
         );
     }

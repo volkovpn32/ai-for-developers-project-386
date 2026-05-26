@@ -43,7 +43,7 @@ public class SlotService {
                     LocalDateTime dayEnd = date.atTime(18, 0);
                     int duration = eventType.duration;
 
-                    return bookingRepository.findByEventTypeId(eventTypeId)
+                    return bookingRepository.listAll()
                             .onItem().transform(bookings -> {
                                 List<Slot> slots = new ArrayList<>();
                                 LocalDateTime current = dayStart;

@@ -34,7 +34,7 @@ public class BookingService {
                     LocalDateTime startTime = request.startTime;
                     LocalDateTime endTime = startTime.plusMinutes(eventType.duration);
 
-                    return bookingRepository.existsConflict(request.eventTypeId, startTime, endTime)
+                    return bookingRepository.existsConflict(startTime, endTime)
                             .onItem().transformToUni(conflict -> {
                                 if (conflict) {
                                     return Uni.createFrom().failure(new ConflictException("Slot is already booked"));
