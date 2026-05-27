@@ -45,7 +45,14 @@ When starting a dev server for verification (`npm start` in `frontend/` or `./gr
 - Angular Material with `provideNativeDateAdapter`
 - `proxy.conf.json` routes `/api` → `http://localhost:8080`
 
-## Testing
+## E2E tests (Playwright)
 
-- Frontend has 1 spec file (`app.spec.ts`)
-- Backend has **zero** tests (no `src/test` directory)
+- `e2e/` — Playwright spec-файлы (chromium, full-stack)
+- `playwright.config.ts` в корне проекта, `webServer` сам поднимает backend + frontend
+- `npm run test:e2e` — запуск тестов (из корня)
+- При падении теста используй Playwright MCP
+
+## Unit tests
+
+- Frontend: 1 spec файл (`app.spec.ts`), Vitest
+- Backend: **ноль** тестов (нет `src/test`)

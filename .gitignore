@@ -46,6 +46,10 @@ frontend/.vscode/*
 !frontend/.vscode/extensions.json
 !frontend/.vscode/mcp.json
 
+# Playwright
+playwright-report/
+test-results/
+
 # System
 .DS_Store
 Thumbs.db

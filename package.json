@@ -1,26 +1,10 @@
 {
-  "name": "ai-for-developers-project-386",
-  "version": "1.0.0",
-  "description": "[![Actions Status](https://github.com/volkovpn32/ai-for-developers-project-386/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/volkovpn32/ai-for-developers-project-386/actions)",
-  "main": "index.js",
+  "name": "calendar-booking",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test:e2e": "playwright test"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/volkovpn32/ai-for-developers-project-386.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/volkovpn32/ai-for-developers-project-386/issues"
-  },
-  "homepage": "https://github.com/volkovpn32/ai-for-developers-project-386#readme",
   "devDependencies": {
-    "@typespec/compiler": "^1.12.0",
-    "@typespec/http": "^1.12.0",
-    "@typespec/openapi": "^1.12.0",
-    "@typespec/openapi3": "^1.12.0"
+    "@playwright/test": "^1.52.0"
   }
 }
