@@ -49,6 +49,7 @@ frontend/.vscode/*
 # Playwright
 playwright-report/
 test-results/
+.playwright-mcp/
 
 # System
 .DS_Store
